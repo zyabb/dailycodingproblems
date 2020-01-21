@@ -1,15 +1,20 @@
-const firstMissingPositive = function(nums) {
-    if(nums == null || nums.length == 0) return 1;
-     for (let i = 0; i < nums.length; i++) {
-         let current = nums[i];
-         while (current - 1 <= 0 && current - 1 < nums.length && current !== nums[current - 1]) {
-              let next = nums[current-1];
-                 nums[current-1] = current;
-                 current = next;
-         }
-     }
-     for(let i = 0;i< nums.length;i++){                     
-             if(nums[i] != i+1) return i+1;
-      }
-         return nums.length+1; 
- };
+const firstMissingPositive = nums => {
+  if (nums.length === 0) return 1;
+  let hash = {};
+
+  for (let num of nums) if (num > 0) hash[num] = true;
+
+  let missNum = 1;
+  for (missNum = 1; missNum <= nums.length; missNum++) {
+    if (!hash[missNum]) {
+      return missNum;
+    }
+  }
+  return missNum;
+};
+
+console.log(firstMissingPositive([3, 4, -1, 1])); //2
+console.log(firstMissingPositive([1])); //2
+console.log(firstMissingPositive([1, 2, 0])); //3
+console.log(firstMissingPositive([2])); //1
+console.log(firstMissingPositive([7, 8, 9, 11, 12])); //1
